@@ -49,7 +49,7 @@ function find_errors() {
         grep -v -i 'warning' | \
         tail -50
     
-    local count=$(grep -i -c -E '(error|exception|fail|fatal|critical)' "$logfile" | grep -v -i 'warning' || echo "0")
+    local count=$(grep -i -E '(error|exception|fail|fatal|critical)' "$logfile" | grep -v -i 'warning' | wc -l || echo "0")
     echo ""
     echo -e "${YELLOW}Total errors found: $count${NC}"
 }
@@ -63,7 +63,7 @@ function find_warnings() {
     
     grep -i 'warn' "$logfile" | tail -50
     
-    local count=$(grep -i -c 'warn' "$logfile" || echo "0")
+    local count=$(grep -i 'warn' "$logfile" | wc -l || echo "0")
     echo ""
     echo -e "${YELLOW}Total warnings found: $count${NC}"
 }
@@ -119,11 +119,11 @@ function show_stats() {
     echo -e "Total lines: ${GREEN}$lines${NC}"
     
     # Error count
-    local errors=$(grep -i -c -E '(error|exception|fail|fatal|critical)' "$logfile" | grep -v -i 'warning' || echo "0")
+    local errors=$(grep -i -E '(error|exception|fail|fatal|critical)' "$logfile" | grep -v -i 'warning' | wc -l || echo "0")
     echo -e "Errors: ${RED}$errors${NC}"
     
     # Warning count
-    local warnings=$(grep -i -c 'warn' "$logfile" || echo "0")
+    local warnings=$(grep -i 'warn' "$logfile" | wc -l || echo "0")
     echo -e "Warnings: ${YELLOW}$warnings${NC}"
     
     # Date range (first and last entries - assumes timestamp at start of line)

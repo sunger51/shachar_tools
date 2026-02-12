@@ -94,8 +94,8 @@ def print_system_info():
             print(f"  Used: {get_size(partition_usage.used)}")
             print(f"  Free: {get_size(partition_usage.free)}")
             print(f"  Percentage: {partition_usage.percent}%")
-        except PermissionError:
-            print("  Permission denied")
+        except (PermissionError, OSError):
+            print("  Permission denied or unable to access")
     
     print("\n" + "=" * 60)
     print("NETWORK INFORMATION")
@@ -107,7 +107,7 @@ def print_system_info():
     try:
         ip_address = socket.gethostbyname(hostname)
         print(f"IP Address: {ip_address}")
-    except:
+    except Exception:
         print("IP Address: Unable to get IP")
     
     # Network interfaces
